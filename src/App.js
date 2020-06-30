@@ -1,66 +1,43 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import "./App.css";
+import { CounterConsumer, CounterProvider } from "./providers/counter.context";
 
-let numberOfCalls = 0;
-
-class Increment extends React.Component {
-  render() {
-    return <button onClick={this.props.inc}>+</button>;
-  }
-}
-class Decrement extends React.Component {
-  render() {
-    return <button onClick={this.props.dec}>-</button>;
-  }
-}
-class Counter extends React.Component {
-  render() {
-    return <h1>{this.props.value}</h1>;
-  }
-}
-
-function DisplayCities({ cities }) {
-  return (
-    <ul>
-      {cities.map((city, index) => (
-        <li key={index}>{city}</li>
-      ))}
-    </ul>
-  );
-}
+// Dumb components
+const Increment = ({ inc }) => <button onClick={inc}>+</button>;
+const Decrement = ({ dec }) => <button onClick={dec}>-</button>;
+const Counter = () => (
+  <CounterConsumer>{(value) => <h1>{value}</h1>}</CounterConsumer>
+);
 
 // Class
-export class App extends React.Component {
-  state = {
+
+// Smart component
+export const App = () => {
+  const initialState = {
     counter: 0,
     step: 10,
-    cities: ["Amsterdam", "Brussels", "Luxembourg", "Metz"],
+    condition: false,
   };
 
-  increment = () => {
-    const { step, counter } = this.state;
-    this.setState({ counter: counter + step });
+  const [state, setState] = useState(initialState);
+
+  const increment = () => {
+    const { step, counter } = state;
+    setState({ ...state, counter: counter + step });
   };
 
-  decrement = () => {
-    const { step, counter } = this.state;
-    this.setState({ counter: counter - step });
+  const decrement = () => {
+    const { step, counter } = state;
+    setState({ ...state, counter: counter - step });
   };
 
-  render() {
-    return (
-      <>
-        <Increment inc={this.increment}></Increment>
-        <Decrement dec={this.decrement}></Decrement>
-        <Counter value={this.state.counter}></Counter>
-        <DisplayCities cities={this.state.cities}></DisplayCities>
-      </>
-    );
-  }
-}
-
-// function Increment(inc){
-//   inc();
-// }
-
-// Increment(function(){})
+  return (
+    <>
+      <Increment inc={increment}></Increment>
+      <Decrement dec={decrement}></Decrement>
+      <CounterProvider value={state.counter}>
+        <Counter></Counter>
+      </CounterProvider>
+    </>
+  );
+};
