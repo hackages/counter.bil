@@ -1,4 +1,9 @@
-import { createStore } from "redux";
-import { counterReducer } from "./reducers";
+import { createStore, combineReducers } from "redux";
+import { counterReducer, stepReducer } from "./reducers";
 
-export const store = createStore(counterReducer);
+const state = {
+  users: counterReducer,
+  payments: stepReducer,
+};
+
+export const store = createStore(combineReducers(state));

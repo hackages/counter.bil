@@ -1,6 +1,7 @@
 // update the state in the store
 
-import { incrementAction, decrementAction } from "./action";
+import { incrementAction, decrementAction, INC, stepAction } from "./action";
+import { increment, decrement } from "./services";
 
 const initialState = {
   counter: 0,
@@ -8,22 +9,23 @@ const initialState = {
   condition: false,
 };
 
+const reducerHandler = {
+  [incrementAction.type]: increment,
+  [decrementAction.type]: decrement,
+};
+
 export function counterReducer(state = initialState, action) {
-  if (action.type === incrementAction.type) {
-    const newState = {
-      ...state,
-      counter: state.counter + state.step,
-    };
+  const handler = reducerHandler[action.type];
 
-    return newState;
-  }
-  if (action.type === decrementAction.type) {
-    const newState = {
-      ...state,
-      counter: state.counter - state.step,
-    };
+  return handler ? handler(state, action) : state;
+}
 
-    return newState;
+export function stepReducer(state = initialState, action) {
+  if (action.type === stepAction.type) {
+    return {
+      ...state,
+      step: state.step + action.payload.step,
+    };
   }
 
   return state;
