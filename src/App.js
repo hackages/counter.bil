@@ -1,17 +1,8 @@
 import React, { useState, useContext } from "react";
 import "./App.css";
-import { CounterConsumer, CounterProvider } from "./providers/counter.context";
+import { CounterProvider } from "./providers/counter.context";
+import { Increment, Decrement, Counter } from "./components";
 
-// Dumb components
-const Increment = ({ inc }) => <button onClick={inc}>+</button>;
-const Decrement = ({ dec }) => <button onClick={dec}>-</button>;
-const Counter = () => (
-  <CounterConsumer>{(value) => <h1>{value}</h1>}</CounterConsumer>
-);
-
-// Class
-
-// Smart component
 export const App = () => {
   const initialState = {
     counter: 0,

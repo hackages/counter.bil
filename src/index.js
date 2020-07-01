@@ -4,12 +4,6 @@ import "./index.css";
 import { App } from "./App";
 import * as serviceWorker from "./serviceWorker";
 
-// const props = {
-//   title: "welcome to this training",
-//   day: 1,
-//   numberofattendees: 10,
-// };
-
 ReactDOM.render(
   <React.StrictMode>
     <App />
