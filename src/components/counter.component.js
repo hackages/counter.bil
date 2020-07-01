@@ -1,5 +1,6 @@
 import React from "react";
-import { CounterConsumer } from "../providers/counter.context";
-export const Counter = () => (
-  <CounterConsumer>{(value) => <h1>{value}</h1>}</CounterConsumer>
-);
+import { useSelector } from "react-redux";
+export const Counter = () => {
+  const counter = useSelector((state) => state.counter);
+  return <h1>{counter}</h1>;
+};
